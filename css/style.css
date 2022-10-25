@@ -324,10 +324,12 @@ nav ul li a:hover {
 }
 
 .gallery-img img {
+  background-color: #0e2a3430;
   max-width: 400px;
   aspect-ratio: 1/1;
   width: 100%;
   border: 1px solid #0e2a3430;
+  object-fit: contain;
 }
 
 
@@ -340,7 +342,6 @@ nav ul li a:hover {
 .contact-bg {
   padding: 2em 1em;
   background-color: #346373;
-  /* background-image: url(./contact-bg.jpg); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -404,14 +405,7 @@ nav ul li a:hover {
   width: 100%;
 }
 
-/* .contact-right h3 {
-  text-align: center;
-  color: white;
-  padding-bottom: 1rem;
-  font-size: 1.5rem;
-  font-weight: 400;
-  vertical-align: top;
-} */
+
 
 .contact-right form {
   color: white;

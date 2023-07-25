@@ -7,7 +7,6 @@
   font-family: 'Poppins', sans-serif;
 }
 
-
 body {
   background-color: #d8d3c6;
   width: 100%;
@@ -50,10 +49,8 @@ header .container {
   flex-wrap: wrap;
 }
 
-
 .logo {
   width: 150px;
-
 }
 
 .logo img {
@@ -83,7 +80,6 @@ nav ul li a {
 nav ul li a:hover {
   text-decoration: underline;
 }
-
 
 .shop {
   background-color: #346373;
@@ -158,8 +154,6 @@ nav ul li a:hover {
   }
 }
 
-
-
 .partition {
   width: 60%;
   max-width: 600px;
@@ -196,7 +190,6 @@ nav ul li a:hover {
   max-width: 400px;
   font-weight: 600;
   padding: 2em 0;
-
 }
 
 .title {
@@ -253,8 +246,6 @@ nav ul li a:hover {
   text-align: center;
 }
 
-
-
 .vision {
   text-align: center;
   margin-bottom: 1em;
@@ -267,7 +258,6 @@ nav ul li a:hover {
   margin: 2em auto;
   text-align: center;
   font-weight: 700;
-
 }
 
 #projects {
@@ -325,13 +315,12 @@ nav ul li a:hover {
 
 .gallery-img img {
   background-color: #0e2a3430;
-  max-width: 400px;
+  max-width: 380px;
   aspect-ratio: 1/1;
   width: 100%;
   border: 1px solid #0e2a3430;
   object-fit: contain;
 }
-
 
 #contact {
   text-align: center;
@@ -368,16 +357,12 @@ nav ul li a:hover {
   flex: 1;
 }
 
-
-
 .location iframe {
   width: 100%;
   min-height: 350px;
   border-radius: 0.5rem;
   border: 2px solid #d8d3c6;
 }
-
-
 
 .address {
   max-width: 100%;
@@ -405,8 +390,6 @@ nav ul li a:hover {
   width: 100%;
 }
 
-
-
 .contact-right form {
   color: white;
   border-radius: 0.5rem;
@@ -430,8 +413,6 @@ textarea:focus,
 .btn:focus {
   outline: 0;
 }
-
-
 
 label {
   font-size: 0.9rem;
@@ -485,7 +466,6 @@ footer .container {
   /* flex-wrap: wrap; */
 }
 
-
 .footer-links {
   list-style-type: none;
   display: flex;
@@ -516,12 +496,10 @@ footer .container {
   text-decoration: underline;
 }
 
-
 .left-footer .socials {
   display: flex;
   justify-content: center;
   gap: 2em;
-
 }
 
 .socials a {
@@ -533,7 +511,7 @@ footer .container {
   opacity: 0.8;
 }
 
-@media (max-width:1010px) {
+@media (max-width: 1010px) {
   .footer-links {
     flex-direction: column;
     align-items: center;
@@ -544,7 +522,6 @@ footer .container {
   .hide {
     display: none;
   }
-
 
   .hide li a {
     font-size: 1.3rem;
@@ -597,8 +574,6 @@ footer .container {
   padding-top: 3em;
 }
 
-
-
 @media (max-width: 470px) {
   .left img {
     max-width: 300px;
@@ -629,7 +604,6 @@ footer .container {
     padding: 0 0.5em;
   }
 }
-
 
 .bg-animated {
   background-color: #0e2a34;

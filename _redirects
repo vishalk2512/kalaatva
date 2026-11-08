@@ -4,4 +4,5 @@ https://6347ecae3f808c000a64cd09--kalaatva.netlify.app/* https://kalaatva.in/:sp
 /#about /about
 /#projects /projects
 /#contact /contact
+/scripts/*  /index.html  404!
 /*    /index.html   200

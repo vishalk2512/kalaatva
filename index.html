@@ -26,435 +26,485 @@
       name="keywords"
       content="interior designer in morbi, interior designer, artist in morbi, house decor, morbi, morbi interior designer"
     />
+    <meta name="theme-color" content="#d9d3c7" />
     <title>Mayuri Ghodasara | Artist</title>
     <link
       rel="shortcut icon"
       href="./assets/icon-kalaatva.ico"
       type="image/x-icon"
     />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap"
+    />
+
+    <!-- Hero art is the LCP image: fetch the right size first.
+         imagesrcset/imagesizes must match the hero <source> below exactly.
+         No href on purpose: browsers without responsive preload (or WebP)
+         skip it instead of fetching a second copy. -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      imagesrcset="./assets/resized/hero-960w.webp 960w, ./assets/resized/hero-1600w.webp 1600w, ./assets/resized/hero-2160w.webp 2160w"
+      imagesizes="(max-width: 760px) 125vw, min(100vw, 1400px)"
+      fetchpriority="high"
+    />
+
+    <!-- Library styles: Lenis smooth scroll (MIT), PhotoSwipe lightbox (MIT) -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.css"
+      integrity="sha384-gvLq/iOMNnPchdosgVym5huSVkKipHCQaqSw2Eg0V52Mzmlf169ZOsXcNc2cNu8x"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe.css"
+      integrity="sha384-IfxC36XL/toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx/1oA/0l8ysE"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="./css/style.css" />
+
+    <script>
+      // Progressive-enhancement flags. Runs before first paint so the
+      // preloader can cover the page; content stays fully usable without JS.
+      ;(function (root) {
+        root.classList.add('js')
+        if (
+          window.matchMedia &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ) {
+          root.classList.add('reduced-motion')
+        } else if (!location.hash && 'scrollRestoration' in history) {
+          // The intro plays from the top; stop the browser restoring an old
+          // scroll position underneath it (deep links with #hash still work).
+          history.scrollRestoration = 'manual'
+        }
+        // Fail-safe: if the scripts never arrive, never trap the page behind the loader.
+        window.__kalaatvaFailsafe = setTimeout(function () {
+          root.classList.add('is-loaded')
+        }, 6000)
+      })(document.documentElement)
+    </script>
   </head>
 
   <body>
-    <header>
-      <div class="container">
-        <a class="logo" href="/">
-          <img src="./assets/logo.svg" alt="logo" loading="lazy" />
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Preloader -->
+    <div class="preloader" aria-hidden="true">
+      <div class="preloader__inner">
+        <img
+          class="preloader__logo"
+          src="./assets/logo.svg"
+          alt=""
+          width="392"
+          height="114"
+        />
+        <div class="preloader__bar"><span></span></div>
+      </div>
+    </div>
+
+    <!-- Cursor follower (fine pointers only) -->
+    <div class="cursor" aria-hidden="true">
+      <span class="cursor__label">View</span>
+    </div>
+
+    <header class="site-header">
+      <div class="container header__inner">
+        <a class="logo" href="/" aria-label="Kalaatva — home">
+          <img src="./assets/logo.svg" alt="Kalaatva logo" width="392" height="114" />
         </a>
-        <nav>
-          <ul class="hide">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
+        <nav class="nav" aria-label="Primary">
+          <ul class="nav__links" id="nav-links">
+            <li><a class="nav__link" href="#home">Home</a></li>
+            <li><a class="nav__link" href="#about">About</a></li>
+            <li><a class="nav__link" href="#projects">Projects</a></li>
             <!-- <li><a href="">Blog</a></li> -->
-            <li><a href="#contact">Contact Us</a></li>
+            <li><a class="nav__link" href="#contact">Contact Us</a></li>
           </ul>
-          <ul class="shop-nav">
-            <li>
-              <a
-                class="shop"
-                href="https://kreateworld.in/collections/kalaatva"
-                target="_blank"
-                >Shop</a
-              >
-            </li>
-            <div class="hamburgur">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </ul>
+          <button
+            class="menu-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="nav-links"
+            aria-label="Open menu"
+          >
+            <span></span><span></span>
+          </button>
         </nav>
       </div>
+      <span class="scroll-progress" aria-hidden="true"></span>
     </header>
-    <main id="home">
-      <img
-        class="hero fade"
-        src="./assets/hero.jpg"
-        alt="hero"
-        loading="lazy"
-      />
-      <div class="container">
-        <span class="partition"></span>
-        <h2 class="intro-kalaatva">
+
+    <main id="main">
+      <!-- Hero -->
+      <section class="hero" id="home" aria-label="Kalaatva — The Spirit Of True Feelings">
+        <div class="hero__media">
+          <div class="hero__float">
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/resized/hero-960w.webp 960w, ./assets/resized/hero-1600w.webp 1600w, ./assets/resized/hero-2160w.webp 2160w"
+                sizes="(max-width: 760px) 125vw, min(100vw, 1400px)"
+              />
+              <img
+                class="hero__img"
+                src="./assets/hero.jpg"
+                alt="Kalaatva calligraphy — The Spirit Of True Feelings, signed Mayuri Ghodasara"
+                width="2160"
+                height="1417"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </picture>
+          </div>
+        </div>
+        <div class="container hero__meta">
+          <p class="hero__tag" data-hero-meta>
+            Contemporary artist<br />&amp; interior designer
+          </p>
+          <a class="hero__scroll" href="#intro" data-hero-meta>
+            <span>Scroll</span><i aria-hidden="true"></i>
+          </a>
+          <p class="hero__place" data-hero-meta>Morbi, Gujarat<br />India</p>
+        </div>
+      </section>
+
+      <!-- Studio statement -->
+      <section class="intro section" id="intro">
+        <div class="container intro__inner">
           <svg
-            class="qoute"
-            height="24px"
-            style="enable-background: new 0 0 32 24"
-            version="1.1"
+            class="quote-mark"
             viewBox="0 0 32 24"
-            width="32px"
-            xml:space="preserve"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
+            width="48"
+            height="36"
+            aria-hidden="true"
+            data-reveal
           >
-            <g id="Layer_1" />
-            <g id="left_x5F_quote">
-              <g>
-                <path
-                  d="M32,24V12h-8c0-4.41,3.586-8,8-8V0c-6.617,0-12,5.383-12,12v12H32z"
-                  style="fill: #4e4e50"
-                />
-                <path
-                  d="M12,24V12H4c0-4.41,3.586-8,8-8V0C5.383,0,0,5.383,0,12v12H12z"
-                  style="fill: #4e4e50"
-                />
-              </g>
-            </g>
+            <path d="M32,24V12h-8c0-4.41,3.586-8,8-8V0c-6.617,0-12,5.383-12,12v12H32z" />
+            <path d="M12,24V12H4c0-4.41,3.586-8,8-8V0C5.383,0,0,5.383,0,12v12H12z" />
           </svg>
-          Kalaatva is an art studio with a specialization in mixed media
-          contemporary art works.
-        </h2>
-      </div>
-      <h1 class="title">Founder of Kalaatva</h1>
-      <img
-        class="profile"
-        src="./assets/profile.jpg"
-        alt="profile"
-        loading="lazy"
-      />
-      <div class="container">
-        <p class="introduction">
-          Mayuri Ghodasara is a contemporary artist and interior designer with
-          skills that accentuate the taste of modern art. She practices at her
-          studio 'Kalaatva' located in Morbi, Gujarat. Although her tastes are
-          modern, she loves to apply historical ideas to her art.
-        </p>
-        <span class="partition"></span>
-        <h2 id="about">About Us</h2>
+          <h2 class="intro__statement" data-highlight>
+            Kalaatva is an art studio with a specialization in mixed media
+            contemporary art works.
+          </h2>
+        </div>
+      </section>
+
+      <!-- Founder -->
+      <section class="founder section" aria-labelledby="founder-title">
+        <div class="container founder__grid">
+          <figure class="founder__media reveal-img">
+            <picture>
+              <source
+                type="image/webp"
+                srcset="./assets/resized/profile-800w.webp 800w, ./assets/resized/profile-1400w.webp 1400w"
+                sizes="(max-width: 760px) min(100vw, 520px), 40vw"
+              />
+              <img
+                src="./assets/profile.jpg"
+                alt="Portrait of Mayuri Ghodasara, founder of Kalaatva"
+                width="2048"
+                height="2048"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+          </figure>
+          <div class="founder__text">
+            <h1 class="eyebrow" id="founder-title" data-reveal>Founder of Kalaatva</h1>
+            <p class="founder__name" data-split>Mayuri Ghodasara</p>
+            <p class="founder__bio" data-reveal>
+              Mayuri Ghodasara is a contemporary artist and interior designer
+              with skills that accentuate the taste of modern art. She practices
+              at her studio 'Kalaatva' located in Morbi, Gujarat. Although her
+              tastes are modern, she loves to apply historical ideas to her art.
+            </p>
+            <a class="link-arrow" href="#contact" data-reveal>
+              <span>Start a conversation</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Marquee -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <div class="marquee__group">
+            <span>Contemporary Art</span><i>✦</i>
+            <span>Interior Design</span><i>✦</i>
+            <span>Mixed Media</span><i>✦</i>
+            <span>Custom Artworks</span><i>✦</i>
+          </div>
+          <div class="marquee__group">
+            <span>Contemporary Art</span><i>✦</i>
+            <span>Interior Design</span><i>✦</i>
+            <span>Mixed Media</span><i>✦</i>
+            <span>Custom Artworks</span><i>✦</i>
+          </div>
+        </div>
       </div>
 
-      <div class="bg-animated">
+      <!-- About -->
+      <section class="about section section--dark" id="about" aria-labelledby="about-title">
+        <div class="about__bg" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
         <div class="container">
-          <p class="about-text">
+          <div class="section-head">
+            <p class="eyebrow" data-reveal>Who we are</p>
+            <h2 class="section-title" id="about-title" data-split>About Us</h2>
+          </div>
+          <p class="about__lead" data-highlight>
             We are always honest with our clients regardless of how small or big
             our concept will be.
           </p>
-          <h2 class="custom-things">Custom things</h2>
-          <p class="custom-text">
-            Everyone has a chance to choose their own choice that also matches
-            their dream home. <span>SO HERE WE ARE.</span> Just come or contact
-            and take your dream concept.
-          </p>
-          <p class="vision">Share your vision and get a beautiful response.</p>
-          <p class="focus">Our team is so excited to enhance your home.</p>
-        </div>
-      </div>
-      <h2 id="projects">Projects</h2>
-      <div class="container">
-        <span class="partition-thin"></span>
-        <div class="flex">
-          <div class="left">
-            <img src="./assets/birds.jpg" alt="birds" loading="lazy" />
-          </div>
-          <div class="right">
-            <p>
-              Ascending birds survey an expanding horizon. The
-              artist-researcher, a bird, man, woman, or a man womanly bird,
-              flies get too near to the sun, founds flocks, sings songs, learns
-              new languages, and discovers routes and itineraries that connect
-              human experiences at the planetary level.
-            </p>
+          <div class="about__cards">
+            <article class="card" data-card>
+              <span class="card__num">01</span>
+              <h3 class="card__title">Custom things</h3>
+              <p>
+                Everyone has a chance to choose their own choice that also
+                matches their dream home. <span class="caps">So here we are.</span>
+                Just come or contact and take your dream concept.
+              </p>
+            </article>
+            <article class="card" data-card>
+              <span class="card__num">02</span>
+              <h3 class="card__title">Your vision</h3>
+              <p>Share your vision and get a beautiful response.</p>
+            </article>
+            <article class="card" data-card>
+              <span class="card__num">03</span>
+              <h3 class="card__title">Your home</h3>
+              <p>Our team is so excited to enhance your home.</p>
+            </article>
           </div>
         </div>
-        <span class="partition-thin"></span>
-        <div class="flex">
-          <div class="left-2">
-            <img src="./assets/sun.jpg" alt="sun" loading="lazy" />
-          </div>
-          <div class="right">
-            <p>"The Healing power of art is in Honour of nature."</p>
-            <br />
-            <p>"Our Bond with nature"</p>
-            <br />
-            <p>"This grand show is eternal. It is always Sunrise somewhere."</p>
-          </div>
-        </div>
-        <span class="partition-thin"></span>
-        <div class="flex">
-          <div class="left-3">
-            <img src="./assets/lief.jpg" alt="lief" loading="lazy" />
-          </div>
-          <div class="right">
-            <p>"Art is a second spring when every leaf has a color."</p>
-            <br />
-            <p>
-              "Look deep into nature, and then you will understand everything
-              better."
-            </p>
-          </div>
-        </div>
-        <span class="partition-thin"></span>
-      </div>
-      <h2 id="gallery">Gallery</h2>
-      <div class="container">
-        <div class="gallery-img">
-          <img
-            src="./assets/gallery-1.jpg"
-            width="380"
-            height="380"
-            alt="gallery-1"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-2.jpg"
-            width="380"
-            height="380"
-            alt="gallery-2"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-3.jpg"
-            width="380"
-            height="380"
-            alt="gallery-3"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-5.jpg"
-            width="380"
-            height="380"
-            alt="gallery-5"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-8.jpg"
-            width="380"
-            height="380"
-            alt="gallery-8"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-9.jpg"
-            width="380"
-            height="380"
-            alt="gallery-9"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-10.jpg"
-            width="380"
-            height="380"
-            alt="gallery-10"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-11.jpg"
-            width="380"
-            height="380"
-            alt="gallery-11"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-12.jpg"
-            width="380"
-            height="380"
-            alt="gallery-12"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-13.jpg"
-            width="380"
-            height="380"
-            alt="gallery-13"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-14.jpg"
-            width="380"
-            height="380"
-            alt="gallery-14"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-16.png"
-            width="380"
-            height="380"
-            alt="gallery-16"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-17.png"
-            width="380"
-            height="380"
-            alt="gallery-17"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-18.jpg"
-            width="380"
-            height="380"
-            alt="gallery-18"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-19.jpg"
-            width="380"
-            height="380"
-            alt="gallery-19"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-20.jpg"
-            width="380"
-            height="380"
-            alt="gallery-20"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-21.jpg"
-            width="380"
-            height="380"
-            alt="gallery-21"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-22.jpg"
-            width="380"
-            height="380"
-            alt="gallery-22"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-23.jpg"
-            width="380"
-            height="380"
-            alt="gallery-23"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-24.jpg"
-            width="380"
-            height="380"
-            alt="gallery-24"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-25.jpg"
-            width="380"
-            height="380"
-            alt="gallery-25"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-26.jpg"
-            width="380"
-            height="380"
-            alt="gallery-26"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-27.jpg"
-            width="380"
-            height="380"
-            alt="gallery-25"
-            loading="lazy"
-          />
-          <img
-            src="./assets/gallery-28.jpg"
-            width="380"
-            height="380"
-            alt="gallery-26"
-            loading="lazy"
-          />
-        </div>
-      </div>
-      <span class="partition-thin"></span>
-      <h2 id="contact">Contact Us</h2>
-      <div class="contact-bg">
+      </section>
+
+      <!-- Projects -->
+      <section class="projects section" id="projects" aria-labelledby="projects-title">
         <div class="container">
-          <div class="contact-left">
-            <div class="location">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3678.240762693376!2d70.8261279!3d22.793540999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39598d3a37887e83%3A0xeb56784030453f62!2sKalpvan%20Shopping!5e0!3m2!1sen!2sin!4v1665655184243!5m2!1sen!2sin"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-              ></iframe>
+          <div class="section-head">
+            <p class="eyebrow" data-reveal>Selected works</p>
+            <h2 class="section-title" id="projects-title" data-split>Projects</h2>
+          </div>
+
+          <article class="project">
+            <figure class="project__media reveal-img">
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="./assets/resized/birds-800w.webp 800w, ./assets/birds.jpg 1000w"
+                  sizes="(max-width: 760px) min(100vw, 520px), 40vw"
+                />
+                <img
+                  src="./assets/birds.jpg"
+                  alt="Pink flamingo paintings in wooden frames on a white patio wall"
+                  width="1000"
+                  height="1500"
+                  loading="lazy"
+                  decoding="async"
+                  data-parallax
+                />
+              </picture>
+            </figure>
+            <div class="project__body">
+              <span class="project__num" data-reveal>01 <i>/ 03</i></span>
+              <p class="project__text" data-reveal>
+                Ascending birds survey an expanding horizon. The
+                artist-researcher, a bird, man, woman, or a man womanly bird,
+                flies get too near to the sun, founds flocks, sings songs, learns
+                new languages, and discovers routes and itineraries that connect
+                human experiences at the planetary level.
+              </p>
             </div>
-            <div class="address">
-              <address>
+          </article>
+
+          <article class="project project--reverse">
+            <figure class="project__media reveal-img">
+              <picture>
+                <source type="image/webp" srcset="./assets/resized/sun-720w.webp" />
+                <img
+                  src="./assets/sun.jpg"
+                  alt="Wall art of a sun rising over layered hills, framed by a painted blue and gold arc"
+                  width="720"
+                  height="720"
+                  loading="lazy"
+                  decoding="async"
+                  data-parallax
+                />
+              </picture>
+            </figure>
+            <div class="project__body">
+              <span class="project__num" data-reveal>02 <i>/ 03</i></span>
+              <p class="project__quote" data-reveal>"The Healing power of art is in Honour of nature."</p>
+              <p class="project__quote" data-reveal>"Our Bond with nature"</p>
+              <p class="project__quote" data-reveal>"This grand show is eternal. It is always Sunrise somewhere."</p>
+            </div>
+          </article>
+
+          <article class="project">
+            <figure class="project__media reveal-img">
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset="./assets/resized/lief-800w.webp 800w, ./assets/resized/lief-1400w.webp 1400w"
+                  sizes="(max-width: 760px) min(100vw, 520px), 40vw"
+                />
+                <img
+                  src="./assets/lief.jpg"
+                  alt="Hand-painted banana leaf mural on a white wall beside potted plants and paint brushes"
+                  width="3000"
+                  height="4000"
+                  loading="lazy"
+                  decoding="async"
+                  data-parallax
+                />
+              </picture>
+            </figure>
+            <div class="project__body">
+              <span class="project__num" data-reveal>03 <i>/ 03</i></span>
+              <p class="project__quote" data-reveal>"Art is a second spring when every leaf has a color."</p>
+              <p class="project__quote" data-reveal>
+                "Look deep into nature, and then you will understand everything
+                better."
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Gallery -->
+      <section class="gallery section" id="gallery" aria-labelledby="gallery-title">
+        <div class="container">
+          <div class="section-head">
+            <p class="eyebrow" data-reveal>Studio archive</p>
+            <h2 class="section-title" id="gallery-title" data-split>Gallery</h2>
+            <p class="section-sub" data-reveal>Select any piece to view it up close.</p>
+          </div>
+          <div class="gallery__grid" id="gallery-grid">
+            <a class="gallery__item" href="./assets/gallery-1.jpg" data-pswp-width="1200" data-pswp-height="1200"><picture><source type="image/webp" srcset="./assets/resized/gallery-1-480w.webp 480w, ./assets/resized/gallery-1-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-1.jpg" alt="Kalaatva artwork 1" width="1200" height="1200" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-2.jpg" data-pswp-width="1200" data-pswp-height="1200"><picture><source type="image/webp" srcset="./assets/resized/gallery-2-480w.webp 480w, ./assets/resized/gallery-2-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-2.jpg" alt="Kalaatva artwork 2" width="1200" height="1200" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-3.jpg" data-pswp-width="1200" data-pswp-height="1200"><picture><source type="image/webp" srcset="./assets/resized/gallery-3-480w.webp 480w, ./assets/resized/gallery-3-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-3.jpg" alt="Kalaatva artwork 3" width="1200" height="1200" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-5.jpg" data-pswp-width="2048" data-pswp-height="2048"><picture><source type="image/webp" srcset="./assets/resized/gallery-5-480w.webp 480w, ./assets/resized/gallery-5-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-5.jpg" alt="Kalaatva artwork 4" width="2048" height="2048" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-8.jpg" data-pswp-width="1800" data-pswp-height="1199"><picture><source type="image/webp" srcset="./assets/resized/gallery-8-480w.webp 480w, ./assets/resized/gallery-8-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-8.jpg" alt="Kalaatva artwork 5" width="1800" height="1199" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-9.jpg" data-pswp-width="2500" data-pswp-height="1667"><picture><source type="image/webp" srcset="./assets/resized/gallery-9-480w.webp 480w, ./assets/resized/gallery-9-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-9.jpg" alt="Kalaatva artwork 6" width="2500" height="1667" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-10.jpg" data-pswp-width="1983" data-pswp-height="1853"><picture><source type="image/webp" srcset="./assets/resized/gallery-10-480w.webp 480w, ./assets/resized/gallery-10-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-10.jpg" alt="Kalaatva artwork 7" width="1983" height="1853" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-11.jpg" data-pswp-width="2222" data-pswp-height="2000"><picture><source type="image/webp" srcset="./assets/resized/gallery-11-480w.webp 480w, ./assets/resized/gallery-11-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-11.jpg" alt="Kalaatva artwork 8" width="2222" height="2000" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-12.jpg" data-pswp-width="2500" data-pswp-height="1563"><picture><source type="image/webp" srcset="./assets/resized/gallery-12-480w.webp 480w, ./assets/resized/gallery-12-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-12.jpg" alt="Kalaatva artwork 9" width="2500" height="1563" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-13.jpg" data-pswp-width="2000" data-pswp-height="1444"><picture><source type="image/webp" srcset="./assets/resized/gallery-13-480w.webp 480w, ./assets/resized/gallery-13-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-13.jpg" alt="Kalaatva artwork 10" width="2000" height="1444" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-14.jpg" data-pswp-width="2000" data-pswp-height="2381"><picture><source type="image/webp" srcset="./assets/resized/gallery-14-480w.webp 480w, ./assets/resized/gallery-14-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-14.jpg" alt="Kalaatva artwork 11" width="2000" height="2381" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-16.png" data-pswp-width="729" data-pswp-height="728"><picture><source type="image/webp" srcset="./assets/resized/gallery-16-480w.webp 480w, ./assets/resized/gallery-16-729w.webp 729w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-16.png" alt="Kalaatva artwork 12" width="729" height="728" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-17.png" data-pswp-width="535" data-pswp-height="800"><picture><source type="image/webp" srcset="./assets/resized/gallery-17-480w.webp 480w, ./assets/resized/gallery-17-535w.webp 535w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-17.png" alt="Kalaatva artwork 13" width="535" height="800" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-18.jpg" data-pswp-width="3264" data-pswp-height="2448"><picture><source type="image/webp" srcset="./assets/resized/gallery-18-480w.webp 480w, ./assets/resized/gallery-18-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-18.jpg" alt="Kalaatva artwork 14" width="3264" height="2448" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-19.jpg" data-pswp-width="2236" data-pswp-height="2954"><picture><source type="image/webp" srcset="./assets/resized/gallery-19-480w.webp 480w, ./assets/resized/gallery-19-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-19.jpg" alt="Kalaatva artwork 15" width="2236" height="2954" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-20.jpg" data-pswp-width="3464" data-pswp-height="3464"><picture><source type="image/webp" srcset="./assets/resized/gallery-20-480w.webp 480w, ./assets/resized/gallery-20-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-20.jpg" alt="Kalaatva artwork 16" width="3464" height="3464" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-21.jpg" data-pswp-width="2184" data-pswp-height="4608"><picture><source type="image/webp" srcset="./assets/resized/gallery-21-480w.webp 480w, ./assets/resized/gallery-21-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-21.jpg" alt="Kalaatva artwork 17" width="2184" height="4608" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-22.jpg" data-pswp-width="2184" data-pswp-height="4608"><picture><source type="image/webp" srcset="./assets/resized/gallery-22-480w.webp 480w, ./assets/resized/gallery-22-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-22.jpg" alt="Kalaatva artwork 18" width="2184" height="4608" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-23.jpg" data-pswp-width="4608" data-pswp-height="2184"><picture><source type="image/webp" srcset="./assets/resized/gallery-23-480w.webp 480w, ./assets/resized/gallery-23-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-23.jpg" alt="Kalaatva artwork 19" width="4608" height="2184" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-24.jpg" data-pswp-width="3024" data-pswp-height="4032"><picture><source type="image/webp" srcset="./assets/resized/gallery-24-480w.webp 480w, ./assets/resized/gallery-24-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-24.jpg" alt="Kalaatva artwork 20" width="3024" height="4032" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-25.jpg" data-pswp-width="720" data-pswp-height="1280"><picture><source type="image/webp" srcset="./assets/resized/gallery-25-480w.webp 480w, ./assets/resized/gallery-25-720w.webp 720w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-25.jpg" alt="Kalaatva artwork 21" width="720" height="1280" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-26.jpg" data-pswp-width="1280" data-pswp-height="720"><picture><source type="image/webp" srcset="./assets/resized/gallery-26-480w.webp 480w, ./assets/resized/gallery-26-960w.webp 960w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-26.jpg" alt="Kalaatva artwork 22" width="1280" height="720" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-27.jpg" data-pswp-width="720" data-pswp-height="1280"><picture><source type="image/webp" srcset="./assets/resized/gallery-27-480w.webp 480w, ./assets/resized/gallery-27-720w.webp 720w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-27.jpg" alt="Kalaatva artwork 23" width="720" height="1280" loading="lazy" decoding="async" /></picture></a>
+            <a class="gallery__item" href="./assets/gallery-28.jpg" data-pswp-width="720" data-pswp-height="1280"><picture><source type="image/webp" srcset="./assets/resized/gallery-28-480w.webp 480w, ./assets/resized/gallery-28-720w.webp 720w" sizes="(min-width: 1400px) 420px, (min-width: 900px) 33vw, 50vw" /><img src="./assets/gallery-28.jpg" alt="Kalaatva artwork 24" width="720" height="1280" loading="lazy" decoding="async" /></picture></a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="contact section section--teal" id="contact" aria-labelledby="contact-title">
+        <div class="container">
+          <div class="section-head">
+            <p class="eyebrow" data-reveal>Get in touch</p>
+            <h2 class="section-title" id="contact-title" data-split>Contact Us</h2>
+          </div>
+          <div class="contact__grid">
+            <form
+              class="contact-form"
+              action="https://formspree.io/f/xbjbdgwa"
+              method="POST"
+              data-reveal
+            >
+              <div class="field">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" autocomplete="name" placeholder=" " required />
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" placeholder=" " required />
+              </div>
+              <div class="field">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder=" " required />
+              </div>
+              <div class="field">
+                <label for="massage">Message</label>
+                <textarea name="massage" id="massage" rows="4" placeholder=" " required></textarea>
+              </div>
+              <button class="btn" type="submit" data-magnetic>
+                <span class="btn__label">Send Message</span>
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </form>
+
+            <div class="contact__info" data-reveal>
+              <div class="contact__map">
+                <iframe
+                  title="Kalaatva studio location on Google Maps"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3678.240762693376!2d70.8261279!3d22.793540999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39598d3a37887e83%3A0xeb56784030453f62!2sKalpvan%20Shopping!5e0!3m2!1sen!2sin!4v1665655184243!5m2!1sen!2sin"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+              <address class="contact__address">
                 <h3>Address</h3>
                 Kalpvan Shopping, Near Golden Market, Panchvati Society, Ravapar
                 Road, Morbi - 363641, Gujarat, India.
               </address>
             </div>
           </div>
-          <div class="contact-right">
-            <!-- <h3>Get In Touch</h3> -->
-            <form action="https://formspree.io/f/xbjbdgwa" method="POST">
-              <div class="name-field">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required />
-              </div>
-              <div class="email-field">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required />
-              </div>
-              <div class="phone-field">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" required />
-              </div>
-              <div class="massage-field">
-                <label for="massage">Message</label>
-                <textarea
-                  name="massage"
-                  id="massage"
-                  cols="30"
-                  rows="4"
-                  required
-                ></textarea>
-              </div>
-              <input class="btn" type="submit" value="Send Message" />
-            </form>
-          </div>
         </div>
-      </div>
+      </section>
     </main>
-    <footer>
+
+    <footer class="site-footer">
       <div class="container">
-        <div class="left-footer">
+        <div class="footer__cta">
+          <p class="eyebrow" data-reveal>Let's create something beautiful</p>
+          <a class="footer__email" href="mailto:mayuripatel15418@gmail.com" data-reveal>
+            mayuripatel15418@gmail.com
+          </a>
+        </div>
+
+        <div class="footer__row">
           <div class="socials">
             <a
               target="_blank"
-              href="https://kreateworld.in/collections/kalaatva"
-              ><svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="34"
-                height="34"
-                viewBox="0 0 34 34"
-                fill="none"
-              >
-                <path
-                  d="M17 34C26.3888 34 34 26.3888 34 17C34 7.61116 26.3888 0 17 0C7.61116 0 0 7.61116 0 17C0 26.3888 7.61116 34 17 34Z"
-                  fill="url(#paint0_linear_0_4)"
-                />
-                <path
-                  d="M13.3626 15.7176C13.02 16.2177 13.0877 16.687 13.5452 16.8784C13.984 17.0623 14.2787 16.869 14.5265 16.5206C15.6879 14.8848 17.3074 14.0974 19.3681 14.243C19.9555 14.2846 20.5424 14.4741 21.1036 14.665C21.5701 14.8234 21.7344 15.244 21.538 15.607C21.3208 16.0083 20.9447 16.1042 20.5463 15.9213C18.7951 15.1178 16.6391 15.8154 15.6361 17.3842C15.0013 18.3772 13.6889 18.614 12.7027 18.0123C11.6701 17.3823 11.369 16.1369 12.061 15.1174C13.6765 12.7366 15.9964 11.5465 18.9871 11.4492C21.2112 11.5404 23.0592 12.2522 24.5055 13.5912L24.0962 9.81486C24.0261 9.16807 23.4569 8.67663 22.7778 8.67663H21.497C21.497 6.78605 19.5834 4.59204 17.2314 4.59204C14.8794 4.59204 12.9658 6.78605 12.9658 8.67663H11.4705C10.7855 8.67663 10.2133 9.17639 10.1505 9.82954L9.1567 20.1699C9.79291 21.3076 10.6957 22.1919 11.8892 22.8115C14.9406 24.3944 18.7437 23.4723 20.6456 20.6936C20.9585 20.2366 20.9175 19.8046 20.5394 19.5782C20.1845 19.3655 19.7788 19.4945 19.4688 19.9199C17.9505 22.0019 15.2802 22.795 13.0289 21.8072C12.7826 21.6989 12.5334 21.4645 12.4327 21.2305C12.365 21.0727 12.4949 20.6988 12.6459 20.6246C12.8902 20.5041 13.2629 20.4511 13.5141 20.5419C14.8809 21.0349 16.1627 20.9361 17.3345 20.0981C17.7087 19.8306 18.0256 19.4661 18.299 19.0984C19.0522 18.0856 20.2867 17.7892 21.3134 18.4145C22.3583 19.0507 22.6308 20.2999 21.9032 21.3563C20.2828 23.7095 17.9737 24.8869 14.9441 24.9725C12.4801 24.8652 10.4618 23.9222 8.95285 22.2278L8.56805 26.1958C8.49589 26.9399 9.10741 27.5824 9.88791 27.5824H24.5592C25.3455 27.5824 25.9589 26.9308 25.8776 26.1819L24.7809 16.082C22.3445 11.8868 16.1065 11.7086 13.3626 15.7176ZM17.2314 6.1234C18.7013 6.1234 19.8973 7.2587 19.8973 8.67663H14.565C14.5655 7.2587 15.7615 6.1234 17.2314 6.1234Z"
-                  fill="white"
-                />
-                <defs>
-                  <linearGradient
-                    id="paint0_linear_0_4"
-                    x1="-9.7e-05"
-                    y1="16.9999"
-                    x2="34.0003"
-                    y2="16.9999"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stop-color="#EF336E" />
-                    <stop offset="1" stop-color="#F69240" />
-                  </linearGradient>
-                </defs></svg
-            ></a>
-            <a
-              target="_blank"
-              href="https://www.instagram.com/kalaatva.theartstudio/"
+              rel="noopener"
+              href="https://www.instagram.com/kalaatva"
+              aria-label="Kalaatva on Instagram"
+              data-magnetic
               ><svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="34"
                 height="34"
                 viewBox="0 0 102 102"
+                aria-hidden="true"
               >
                 <defs>
                   <radialGradient
@@ -495,7 +545,12 @@
                   transform="translate(-422.637 -426.196)"
                 /></svg
             ></a>
-            <a target="_blank" href="https://wa.me/918154015418"
+            <a
+              target="_blank"
+              rel="noopener"
+              href="https://wa.me/918154015418"
+              aria-label="Chat with Kalaatva on WhatsApp"
+              data-magnetic
               ><svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="34"
@@ -506,6 +561,7 @@
                 shape-rendering="geometricPrecision"
                 text-rendering="geometricPrecision"
                 viewBox="0 0 6.827 6.827"
+                aria-hidden="true"
               >
                 <rect
                   width="6.827"
@@ -524,8 +580,7 @@
                 /></svg
             ></a>
           </div>
-        </div>
-        <div class="middle-footer">
+
           <ul class="footer-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -533,121 +588,46 @@
             <!-- <li><a href="">Blog</a></li> -->
             <li><a href="#contact">Contact Us</a></li>
           </ul>
+
+          <button class="to-top" type="button" aria-label="Back to top" data-magnetic>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
         </div>
-        <div class="right-footer">
-          <span
-            ><svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              version="1.1"
-              width="20"
-              height="20"
-              viewBox="0 0 256 256"
-              xml:space="preserve"
-            >
-              <defs></defs>
-              <g
-                style="
-                  stroke: none;
-                  stroke-width: 0;
-                  stroke-dasharray: none;
-                  stroke-linecap: butt;
-                  stroke-linejoin: miter;
-                  stroke-miterlimit: 10;
-                  fill: none;
-                  fill-rule: nonzero;
-                  opacity: 1;
-                "
-                transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
-              >
-                <path
-                  d="M 75.546 78.738 H 14.455 C 6.484 78.738 0 72.254 0 64.283 V 25.716 c 0 -7.97 6.485 -14.455 14.455 -14.455 h 61.091 c 7.97 0 14.454 6.485 14.454 14.455 v 38.567 C 90 72.254 83.516 78.738 75.546 78.738 z M 14.455 15.488 c -5.64 0 -10.228 4.588 -10.228 10.228 v 38.567 c 0 5.64 4.588 10.229 10.228 10.229 h 61.091 c 5.64 0 10.228 -4.589 10.228 -10.229 V 25.716 c 0 -5.64 -4.588 -10.228 -10.228 -10.228 H 14.455 z"
-                  style="
-                    stroke: none;
-                    stroke-width: 1;
-                    stroke-dasharray: none;
-                    stroke-linecap: butt;
-                    stroke-linejoin: miter;
-                    stroke-miterlimit: 10;
-                    fill: rgb(255, 255, 255);
-                    fill-rule: nonzero;
-                    opacity: 1;
-                  "
-                  transform=" matrix(1 0 0 1 0 0) "
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M 11.044 25.917 C 21.848 36.445 32.652 46.972 43.456 57.5 c 2.014 1.962 5.105 -1.122 3.088 -3.088 C 35.74 43.885 24.936 33.357 14.132 22.83 C 12.118 20.867 9.027 23.952 11.044 25.917 L 11.044 25.917 z"
-                  style="
-                    stroke: none;
-                    stroke-width: 1;
-                    stroke-dasharray: none;
-                    stroke-linecap: butt;
-                    stroke-linejoin: miter;
-                    stroke-miterlimit: 10;
-                    fill: rgb(255, 255, 255);
-                    fill-rule: nonzero;
-                    opacity: 1;
-                  "
-                  transform=" matrix(1 0 0 1 0 0) "
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M 46.544 57.5 c 10.804 -10.527 21.608 -21.055 32.412 -31.582 c 2.016 -1.965 -1.073 -5.051 -3.088 -3.088 C 65.064 33.357 54.26 43.885 43.456 54.412 C 41.44 56.377 44.529 59.463 46.544 57.5 L 46.544 57.5 z"
-                  style="
-                    stroke: none;
-                    stroke-width: 1;
-                    stroke-dasharray: none;
-                    stroke-linecap: butt;
-                    stroke-linejoin: miter;
-                    stroke-miterlimit: 10;
-                    fill: rgb(255, 255, 255);
-                    fill-rule: nonzero;
-                    opacity: 1;
-                  "
-                  transform=" matrix(1 0 0 1 0 0) "
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M 78.837 64.952 c -7.189 -6.818 -14.379 -13.635 -21.568 -20.453 c -2.039 -1.933 -5.132 1.149 -3.088 3.088 c 7.189 6.818 14.379 13.635 21.568 20.453 C 77.788 69.973 80.881 66.89 78.837 64.952 L 78.837 64.952 z"
-                  style="
-                    stroke: none;
-                    stroke-width: 1;
-                    stroke-dasharray: none;
-                    stroke-linecap: butt;
-                    stroke-linejoin: miter;
-                    stroke-miterlimit: 10;
-                    fill: rgb(255, 255, 255);
-                    fill-rule: nonzero;
-                    opacity: 1;
-                  "
-                  transform=" matrix(1 0 0 1 0 0) "
-                  stroke-linecap="round"
-                />
-                <path
-                  d="M 14.446 68.039 c 7.189 -6.818 14.379 -13.635 21.568 -20.453 c 2.043 -1.938 -1.048 -5.022 -3.088 -3.088 c -7.189 6.818 -14.379 13.635 -21.568 20.453 C 9.315 66.889 12.406 69.974 14.446 68.039 L 14.446 68.039 z"
-                  style="
-                    stroke: none;
-                    stroke-width: 1;
-                    stroke-dasharray: none;
-                    stroke-linecap: butt;
-                    stroke-linejoin: miter;
-                    stroke-miterlimit: 10;
-                    fill: rgb(255, 255, 255);
-                    fill-rule: nonzero;
-                    opacity: 1;
-                  "
-                  transform=" matrix(1 0 0 1 0 0) "
-                  stroke-linecap="round"
-                />
-              </g></svg
-          ></span>
-          <span>kalaatva.theartistry@gmail.com</span>
-        </div>
+
+        <p class="footer__wordmark" aria-hidden="true">Kalaatva</p>
+        <p class="copyright">
+          &copy; <span data-year>2026</span> Kalaatva. All rights reserved.
+        </p>
       </div>
-      <div class="copyright">&copy;copyright | All rights reserved.</div>
     </footer>
 
-    <script src="./js/script.js"></script>
+    <!-- Motion libraries (pinned + SRI). The site still works if they fail to load. -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/gsap@3.15.1/dist/gsap.min.js"
+      integrity="sha384-3vCAhD+a3BOliP3QqjQINn6ZWiZxoqu0WFxX5ZQZgqekDZuSb1mJBrrLMmu94H8f"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/gsap@3.15.1/dist/ScrollTrigger.min.js"
+      integrity="sha384-H2WL1iy/jKQQ7MTHU2hskZKNHTYWWD/KgKE1vCNnaWY8An2ESTh23KN/fTp8XS3j"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/gsap@3.15.1/dist/SplitText.min.js"
+      integrity="sha384-e98MX/fxZrUXA/6T+aCptryLfHgR2FpEmWxDbbPloHT0Qg79dEXKdLJ/iwD2lzxs"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js"
+      integrity="sha384-R18XzqnxvVLEF+BYfhpmDx30v7eP83fAckyfoRzK7/Uf6nGqufcmsk0eAKo7S3RU"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="./js/script.js" defer></script>
   </body>
 </html>
